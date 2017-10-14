@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)http://v3.bootcss.com/examples/navbar-fixed-top/ -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
+
+    <title>Fixed Top Navbar Example for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/navbar-fixed-top.css" rel="stylesheet">
+
+    <!--从虎嗅网中导入的带阴影的边框，代码保存在/static/css/customize.css中-->
+    <link href="/static/css/customize.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top"><!--导航标签-->
+      <div class="container"> <!-- 导航的logo -->
+        <div class="navbar-header"><!--导航的头部分-->
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">聚电</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav"> <!--导航栏中的内容-->
+            <li class="active"><a href="/">全部</a></li>
+                {% for category in bbs_category %}
+                    {% ifequal category.id cate_id %}
+                        <li class="active"><a href="/category/{{ category.id }}/">{{ category.name }}</a></li>
+                    {% else %}
+                        <li class=""><a href="/category/{{ category.id }}/">{{ category.name }}</a></li>
+                    {% endifequal %}
+                {% endfor %}
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right"> <!--登陆设置，在最右端的下拉菜单-->
+           <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                  {% if user.is_authenticated %}  <!--信息认证-->
+                    {{ user.username }}
+                  {% else %}
+                     登陆
+                  {% endif %}
+                  <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="/login/">Login</a></li>
+                <li><a href="/logout/">Logout</a></li>
+
+              </ul>
+            </li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    <!--虎嗅网中的样式-->
+    <div class="container center-container-hx"> <!-- 放置可重用的数据-->
+     <!--下面的代码为动态页面，此页面为母版，其他网站可以重用block中的数据，只要继承母版即可-->
+     {% block page-content %}
+      <!-- Main component for a primary marketing message or call to action -->
+      <ul class="nav nav-pills navbar-right" role="tablist">
+         <li role="presentation" class="active">
+              <a href="/bbs_pub/">发帖</a>
+         </li>
+     </ul>
+      <br/>
+      <hr>
+      <div class="contents">
+        {% for bbs in bbs_list %}
+            <!--论坛首页链接标题-->
+            <a href="/detail/{{ bbs.id }}">{{ bbs.title }}</a><!--点击标题跳转到bbs_detail.html-->
+            <br>
+            {{ bbs.summary }}
+            <br>
+            <hr>
+        {% endfor %}
+      </div>
+     {% endblock %}
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/js/jquery-2.1.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+
+</body></html>
